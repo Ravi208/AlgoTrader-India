@@ -1,11 +1,29 @@
 # AlgoTrader India: AI-Powered Options Trading Simulator
 
-AlgoTrader India is a sophisticated paper trading platform designed for the Indian derivatives market. It leverages the power of the Google Gemini API to suggest, simulate, and analyze algorithmic trading strategies for Nifty and Bank Nifty options, providing a realistic and insightful virtual trading experience.
-
-![AlgoTrader India Screenshot](https://storage.googleapis.com/aistudio-project-assets/notebook-assets/live-api-examples/algotrader_screenshot.png) 
-*(Note: Screenshot is for illustrative purposes)*
+AlgoTrader India is a sophisticated paper trading platform for the Indian derivatives market. It uses the Google Gemini API to suggest, simulate, and analyze trading strategies for Nifty and Bank Nifty options, providing a realistic and insightful virtual trading experience.
 
 ---
+
+## 🚀 Live Demo
+
+**[➡️ Click here to try the live demo in Google AI Studio!](https://aistudio.google.com/app/your-preview-link-here)**
+
+*(Note: The live demo is for demonstration purposes. All data is simulated.)*
+
+---
+
+## 📸 Screenshots
+
+| Market Overview & AI Suggester | AI Strategy Simulator |
+| :---: | :---: |
+| ![Market Overview and AI Strategy Suggester](https://storage.googleapis.com/aistudio-project-assets/notebook-assets/live-api-examples/algotrader_ss1.png) | ![AI Strategy Simulator with Intraday and Historical Charts](https://storage.googleapis.com/aistudio-project-assets/notebook-assets/live-api-examples/algotrader_ss2.png) |
+
+| AI Top Picks & Paper Portfolio |
+| :---: |
+| ![AI Top Picks and the Paper Trading Portfolio](https://storage.googleapis.com/aistudio-project-assets/notebook-assets/live-api-examples/algotrader_ss3.png) |
+
+---
+
 
 ## ✨ Key Features
 
