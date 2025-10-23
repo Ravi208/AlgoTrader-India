@@ -1,4 +1,4 @@
-# AlgoTrader India: AI-Powered Options Trading Simulator
+<img width="1129" height="353" alt="image" src="https://github.com/user-attachments/assets/de541065-562b-4cd2-b428-fa41acb29b76" /># AlgoTrader India: AI-Powered Options Trading Simulator
 
 AlgoTrader India is a sophisticated paper trading platform for the Indian derivatives market. It uses the Google Gemini API to suggest, simulate, and analyze trading strategies for Nifty and Bank Nifty options, providing a realistic and insightful virtual trading experience.
 
@@ -23,8 +23,9 @@ AlgoTrader India is a sophisticated paper trading platform for the Indian deriva
 2.  *Add your images (e.g., `dashboard.png`, `simulator.png`).*
 3.  *Embed them in this README using Markdown syntax, like this:*
     ```markdown
-    ![Dashboard View](./screenshots/dashboard.png)
-    ![Simulator View](./screenshots/simulator.png)
+  <img width="1873" height="970" alt="image" src="https://github.com/user-attachments/assets/85fd4c94-ad7e-4b72-a66e-28526f5f965e" />
+<img width="1850" height="825" alt="image" src="https://github.com/user-attachments/assets/812ab641-c8d7-4d42-ba0c-2ba25acd698a" />
+
     ```
 
 ---
