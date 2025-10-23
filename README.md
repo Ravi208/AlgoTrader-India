@@ -6,23 +6,12 @@ AlgoTrader India is a sophisticated paper trading platform for the Indian deriva
 
 ## 🚀 Live Demo
 
-**[Add your public Google AI Studio preview link here]**
-
-*Instructions: To share a live demo, deploy this project in Google AI Studio and replace the line above with your public preview URL.*
-
-*(Note: Live demos are for demonstration purposes. All data is simulated.)*
+[Click Here for live demo](https://aistudio.google.com/app/prompts?state=%7B%22ids%22:%5B%2216hdPX5KB0f8s4rTyiSi8ZwcyQf5gbzHC%22%5D,%22action%22:%22open%22,%22userId%22:%22116836928984612143272%22,%22resourceKeys%22:%7B%7D%7D&usp=sharing)
 
 ---
 
 ## 📸 Screenshots
 
-**[Add screenshots of your application here]**
-
-*Instructions: To add screenshots:*
-1.  *Create a folder in your repository (e.g., `screenshots` or `assets`).*
-2.  *Add your images (e.g., `dashboard.png`, `simulator.png`).*
-3.  *Embed them in this README using Markdown syntax, like this:*
-    ```markdown
   <img width="1873" height="970" alt="image" src="https://github.com/user-attachments/assets/85fd4c94-ad7e-4b72-a66e-28526f5f965e" />
 <img width="1850" height="825" alt="image" src="https://github.com/user-attachments/assets/812ab641-c8d7-4d42-ba0c-2ba25acd698a" />
 
