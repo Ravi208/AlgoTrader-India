@@ -6,7 +6,9 @@ AlgoTrader India is a sophisticated paper trading platform for the Indian deriva
 
 ## 🚀 Live Demo
 
-A live demo of this project can be deployed and shared via Google AI Studio. The project owner will need to replace this section with their public preview link.
+**[Add your public Google AI Studio preview link here]**
+
+*Instructions: To share a live demo, deploy this project in Google AI Studio and replace the line above with your public preview URL.*
 
 *(Note: Live demos are for demonstration purposes. All data is simulated.)*
 
@@ -14,13 +16,16 @@ A live demo of this project can be deployed and shared via Google AI Studio. The
 
 ## 📸 Screenshots
 
-| Market Overview & AI Suggester | AI Strategy Simulator |
-| :---: | :---: |
-| ![Market Overview and AI Strategy Suggester](https://storage.googleapis.com/aistudio-project-assets/notebook-assets/live-api-examples/algotrader_ss1.png) | ![AI Strategy Simulator with Intraday and Historical Charts](https://storage.googleapis.com/aistudio-project-assets/notebook-assets/live-api-examples/algotrader_ss2.png) |
+**[Add screenshots of your application here]**
 
-| AI Top Picks & Paper Portfolio |
-| :---: |
-| ![AI Top Picks and the Paper Trading Portfolio](https://storage.googleapis.com/aistudio-project-assets/notebook-assets/live-api-examples/algotrader_ss3.png) |
+*Instructions: To add screenshots:*
+1.  *Create a folder in your repository (e.g., `screenshots` or `assets`).*
+2.  *Add your images (e.g., `dashboard.png`, `simulator.png`).*
+3.  *Embed them in this README using Markdown syntax, like this:*
+    ```markdown
+    ![Dashboard View](./screenshots/dashboard.png)
+    ![Simulator View](./screenshots/simulator.png)
+    ```
 
 ---
 
