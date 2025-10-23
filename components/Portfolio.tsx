@@ -14,6 +14,7 @@ interface PortfolioProps {
 const Portfolio: React.FC<PortfolioProps> = ({ positions, realizedPnl, onExitPosition, onExitAllPicks, onExitAllStrategies, onExitAll }) => {
   const getPnlColor = (pnl: number) => (pnl >= 0 ? 'text-green-500' : 'text-red-500');
   const unrealizedPnl = positions.reduce((acc, pos) => acc + pos.pnl, 0);
+  const totalCapital = positions.reduce((acc, pos) => acc + pos.requiredCapital, 0);
   const totalPnl = unrealizedPnl + realizedPnl;
 
   const hasPicks = positions.some(p => p.source === 'pick');
@@ -24,6 +25,12 @@ const Portfolio: React.FC<PortfolioProps> = ({ positions, realizedPnl, onExitPos
       <div className="flex justify-between items-center mb-4 flex-wrap gap-4">
         <h2 className="text-xl font-semibold text-white">Paper Trading Portfolio</h2>
         <div className="flex space-x-6 text-right items-center">
+            <div>
+                <span className="text-sm text-gray-400 block">Total Capital</span>
+                <span className={`text-lg font-bold text-white`}>
+                    ₹{totalCapital.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                </span>
+            </div>
             <div>
                 <span className="text-sm text-gray-400 block">Realized P/L</span>
                 <span className={`text-lg font-bold ${getPnlColor(realizedPnl)}`}>

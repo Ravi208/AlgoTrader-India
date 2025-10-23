@@ -83,9 +83,16 @@ const Backtester: React.FC<BacktesterProps> = ({ strategyToTest, onAddToPortfoli
                                 ({result.pnl >= 0 ? '+' : ''}{result.pnl.toFixed(2)}%)
                             </p>
                         </div>
-                        <p className="text-sm text-gray-400 mt-1">
-                            Based on an estimated capital of <span className="font-medium text-gray-200">₹{result.requiredCapital.toLocaleString('en-IN')}</span>
-                        </p>
+                        <div className="grid grid-cols-2 gap-4 mt-2 border-t border-gray-700 pt-2 text-sm">
+                            <div>
+                                <span className="text-gray-400 block">Estimated Capital</span>
+                                <span className="font-medium text-gray-200 text-base">₹{result.requiredCapital.toLocaleString('en-IN')}</span>
+                            </div>
+                            <div>
+                                <span className="text-gray-400 block">Max Potential Loss</span>
+                                <span className="font-medium text-red-400 text-base">₹{result.maxLoss.toLocaleString('en-IN')}</span>
+                            </div>
+                        </div>
                     </div>
                     <div>
                         <h4 className="font-semibold text-gray-300">AI Commentary:</h4>

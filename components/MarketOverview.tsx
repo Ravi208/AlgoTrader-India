@@ -4,14 +4,51 @@ import type { MarketData } from '../types';
 
 interface MarketOverviewProps {
   marketData: MarketData[];
+  lastUpdated: Date;
+  marketStatus: {
+    isOpen: boolean;
+    statusText: 'OPEN' | 'CLOSED';
+  };
 }
 
-const MarketOverview: React.FC<MarketOverviewProps> = ({ marketData }) => {
+const MarketOverview: React.FC<MarketOverviewProps> = ({ marketData, lastUpdated, marketStatus }) => {
   const getChangeColor = (change: number) => (change >= 0 ? 'text-green-500' : 'text-red-500');
 
   return (
     <Card>
-      <h2 className="text-xl font-semibold mb-4 text-white">Market Overview</h2>
+      <div className="flex justify-between items-center mb-4 flex-wrap gap-2">
+        <h2 className="text-xl font-semibold text-white">NSE Market Status</h2>
+        <div className="flex items-center space-x-2 text-sm text-gray-400">
+          {marketStatus.isOpen ? (
+            <div className="relative flex h-3 w-3">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
+            </div>
+          ) : (
+            <div className="relative flex h-3 w-3">
+              <span className="relative inline-flex rounded-full h-3 w-3 bg-red-500"></span>
+            </div>
+          )}
+          <span>
+            <span className={`font-bold ${marketStatus.isOpen ? 'text-green-400' : 'text-red-400'}`}>
+              {marketStatus.statusText}
+            </span>
+            <span className="mx-2 text-gray-600">|</span>
+            {marketStatus.isOpen ? 'Last Update:' : 'As of:'}{' '}
+            <span className="font-mono font-medium text-gray-200">
+              {lastUpdated.toLocaleString('en-IN', {
+                day: '2-digit',
+                month: 'short',
+                year: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit',
+                hour12: true,
+              })}
+            </span>
+          </span>
+        </div>
+      </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {marketData.map((instrument) => (
           <div key={instrument.name} className="bg-gray-900 p-4 rounded-md border border-gray-700">
@@ -33,6 +70,9 @@ const MarketOverview: React.FC<MarketOverviewProps> = ({ marketData }) => {
           </div>
         ))}
       </div>
+      <p className="text-xs text-gray-500 mt-4 text-center">
+        Note: Market data is simulated for paper trading and does not represent live NSE prices.
+      </p>
     </Card>
   );
 };

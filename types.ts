@@ -32,6 +32,7 @@ export interface BacktestResult {
   pnl: number; // Percentage
   pnlAmount: number; // Absolute amount in INR
   requiredCapital: number;
+  maxLoss: number;
   strategyLegs: StrategyLeg[];
   commentary: string;
   dataPoints: { time: string; pnlAmount: number }[];
@@ -46,6 +47,7 @@ export interface Position {
   quantity: number; // Number of lots
   pnl: number;
   source: 'pick' | 'strategy';
+  requiredCapital: number;
 }
 
 export interface OptionPick {

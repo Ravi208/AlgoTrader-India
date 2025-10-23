@@ -55,7 +55,7 @@ export const runBacktest = async (instrument: string, strategyName: string): Pro
   try {
     const response = await ai.models.generateContent({
       model: 'gemini-2.5-pro',
-      contents: `Simulate the intraday performance of the '${strategyName}' strategy for ${instrument} options under today's market conditions. Provide a hypothetical outcome including: 1. An array of the individual strategy legs, where each leg is an object with the exact 'instrument' (e.g., "NIFTY 23500 CE"), the 'action' ("Buy" or "Sell"), and a hypothetical 'entryPrice' in INR. 2. The estimated capital required in INR for one lot. 3. The final Profit/Loss as a percentage. 4. The final Profit/Loss as an absolute amount in INR. 5. A brief commentary on performance. 6. Generate 8 data points representing the P/L amount in INR fluctuation throughout a 6-hour trading day (e.g., 9:30, 10:30, etc.).`,
+      contents: `Simulate the intraday performance of the '${strategyName}' strategy for ${instrument} options under today's market conditions. Provide a hypothetical outcome including: 1. An array of the individual strategy legs (instrument, action, entryPrice). 2. The estimated capital required in INR for one lot. 3. The maximum potential loss in INR. 4. The final Profit/Loss as a percentage. 5. The final Profit/Loss as an absolute amount in INR. 6. A brief commentary on performance. 7. Generate 8 data points representing the P/L amount in INR fluctuation throughout a 6-hour trading day (e.g., 9:30, 10:30, etc.).`,
       config: {
         systemInstruction: systemInstruction,
         responseMimeType: "application/json",
@@ -65,6 +65,7 @@ export const runBacktest = async (instrument: string, strategyName: string): Pro
             pnl: { type: Type.NUMBER, description: 'The final estimated Profit/Loss percentage.' },
             pnlAmount: { type: Type.NUMBER, description: 'The final estimated Profit/Loss in INR.' },
             requiredCapital: { type: Type.NUMBER, description: 'The estimated capital required in INR.' },
+            maxLoss: { type: Type.NUMBER, description: 'The maximum potential loss in INR.' },
             strategyLegs: {
               type: Type.ARRAY,
               description: "The individual legs of the strategy.",
@@ -91,7 +92,7 @@ export const runBacktest = async (instrument: string, strategyName: string): Pro
               }
             }
           },
-          required: ['pnl', 'pnlAmount', 'requiredCapital', 'strategyLegs', 'commentary', 'dataPoints'],
+          required: ['pnl', 'pnlAmount', 'requiredCapital', 'maxLoss', 'strategyLegs', 'commentary', 'dataPoints'],
         },
       },
     });
