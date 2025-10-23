@@ -6,9 +6,9 @@ AlgoTrader India is a sophisticated paper trading platform for the Indian deriva
 
 ## 🚀 Live Demo
 
-**[➡️ Click here to try the live demo in Google AI Studio!](https://aistudio.google.com/app/your-preview-link-here)**
+A live demo of this project can be deployed and shared via Google AI Studio. The project owner will need to replace this section with their public preview link.
 
-*(Note: The live demo is for demonstration purposes. All data is simulated.)*
+*(Note: Live demos are for demonstration purposes. All data is simulated.)*
 
 ---
 
