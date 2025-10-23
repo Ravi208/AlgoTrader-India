@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import { LineChart, Line, BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, ReferenceLine } from 'recharts';
 import Card from './shared/Card';
 import Spinner from './shared/Spinner';
 import { runBacktest } from '../services/geminiService';
@@ -12,6 +12,51 @@ interface BacktesterProps {
   } | null;
   onAddToPortfolio: (result: BacktestResult) => void;
 }
+
+// Custom Tooltip for the historical chart
+const CustomTooltip = ({ active, payload, label }: any) => {
+  if (active && payload && payload.length) {
+    const pnl = payload[0].value;
+    let formattedDate = label;
+    try {
+        const date = new Date(label);
+        if (!isNaN(date.getTime())) {
+            formattedDate = date.toLocaleDateString('en-IN', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+                timeZone: 'UTC'
+            });
+        }
+    } catch (e) {
+        // ignore, use original label
+    }
+
+    return (
+      <div className="bg-gray-900/80 backdrop-blur-sm border border-gray-600 p-3 rounded-lg shadow-lg">
+        <p className="label text-sm font-medium text-gray-300">{formattedDate}</p>
+        <p className={`intro text-base font-bold ${pnl >= 0 ? 'text-green-400' : 'text-red-400'}`}>
+          {pnl >= 0 ? '+' : ''}₹{pnl.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+        </p>
+      </div>
+    );
+  }
+  return null;
+};
+
+const formatDate = (dateString: string): string => {
+    try {
+        const date = new Date(dateString);
+        if (isNaN(date.getTime())) {
+            return dateString;
+        }
+        const options: Intl.DateTimeFormatOptions = { month: 'short', day: 'numeric', timeZone: 'UTC' };
+        return date.toLocaleDateString('en-US', options);
+    } catch (e) {
+        return dateString;
+    }
+};
+
 
 const Backtester: React.FC<BacktesterProps> = ({ strategyToTest, onAddToPortfolio }) => {
   const [result, setResult] = useState<BacktestResult | null>(null);
@@ -74,7 +119,7 @@ const Backtester: React.FC<BacktesterProps> = ({ strategyToTest, onAddToPortfoli
             {result && (
                 <div className="flex-grow flex flex-col space-y-4 animate-fade-in">
                     <div>
-                        <h3 className="text-lg font-bold text-gray-200">Simulation Result</h3>
+                        <h3 className="text-lg font-bold text-gray-200">Today's Simulation Result</h3>
                          <div className="flex items-baseline space-x-4">
                             <p className={`text-3xl font-bold ${getPnlColor(result.pnlAmount)}`}>
                                 ₹{result.pnlAmount.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
@@ -95,10 +140,11 @@ const Backtester: React.FC<BacktesterProps> = ({ strategyToTest, onAddToPortfoli
                         </div>
                     </div>
                     <div>
-                        <h4 className="font-semibold text-gray-300">AI Commentary:</h4>
+                        <h4 className="font-semibold text-gray-300">AI Commentary (Today):</h4>
                         <p className="text-sm text-gray-400">{result.commentary}</p>
                     </div>
-                    <div className="flex-grow" style={{ minHeight: '250px' }}>
+                    {/* Intraday Chart */}
+                    <div style={{ height: '220px' }}>
                         <ResponsiveContainer width="100%" height="100%">
                             <LineChart data={result.dataPoints} margin={{ top: 5, right: 20, left: 0, bottom: 5 }}>
                                 <CartesianGrid strokeDasharray="3 3" stroke="#4A5568" />
@@ -106,19 +152,63 @@ const Backtester: React.FC<BacktesterProps> = ({ strategyToTest, onAddToPortfoli
                                 <YAxis stroke="#A0AEC0" domain={['auto', 'auto']} tickFormatter={(value) => `₹${value}`} />
                                 <Tooltip
                                     contentStyle={{ backgroundColor: '#1A202C', border: '1px solid #4A5568' }}
-                                    formatter={(value: number) => [`₹${value.toLocaleString('en-IN')}`, 'P/L']}
+                                    formatter={(value: number) => [`₹${value.toLocaleString('en-IN')}`, 'Intraday P/L']}
                                     labelStyle={{ color: '#A0AEC0' }}
                                 />
-                                <Legend />
-                                <Line type="monotone" dataKey="pnlAmount" name="P/L (₹)" stroke="#38B2AC" strokeWidth={2} dot={{ r: 4 }} activeDot={{ r: 8 }} />
+                                <Legend wrapperStyle={{fontSize: '12px', color: '#A0AEC0'}} />
+                                <Line type="monotone" dataKey="pnlAmount" name="Intraday P/L (₹)" stroke="#38B2AC" strokeWidth={2} dot={{ r: 4 }} activeDot={{ r: 8 }} />
                             </LineChart>
                         </ResponsiveContainer>
                     </div>
+                    
+                    {/* Historical Chart - NEW DESIGN */}
+                    {result.historicalPnl && result.historicalPnl.length > 0 && (
+                        <div className="border-t border-gray-700 pt-4 mt-4">
+                            <h3 className="text-lg font-bold text-gray-200 mb-2">Hypothetical 7-Day Performance</h3>
+                             <div style={{ height: '220px' }}>
+                                <ResponsiveContainer width="100%" height="100%">
+                                    <BarChart data={result.historicalPnl.slice().reverse()} margin={{ top: 5, right: 20, left: -10, bottom: 5 }}>
+                                        <defs>
+                                            <linearGradient id="positivePnlGradient" x1="0" y1="0" x2="0" y2="1">
+                                                <stop offset="0%" stopColor="#48BB78" stopOpacity={0.9} />
+                                                <stop offset="100%" stopColor="#48BB78" stopOpacity={0.2} />
+                                            </linearGradient>
+                                            <linearGradient id="negativePnlGradient" x1="0" y1="0" x2="0" y2="1">
+                                                <stop offset="0%" stopColor="#F56565" stopOpacity={0.9} />
+                                                <stop offset="100%" stopColor="#F56565" stopOpacity={0.2} />
+                                            </linearGradient>
+                                        </defs>
+                                        <CartesianGrid strokeDasharray="3 3" stroke="#4A5568" vertical={false} />
+                                        <XAxis dataKey="date" stroke="#A0AEC0" tick={{fontSize: 12}} axisLine={false} tickLine={false} tickFormatter={formatDate} />
+                                        <YAxis 
+                                            stroke="#A0AEC0" 
+                                            tickFormatter={(value) => value === 0 ? '₹0' : `₹${Number(value)/1000}k`}
+                                            tick={{fontSize: 12}} 
+                                            axisLine={false} 
+                                            tickLine={false}
+                                            width={50}
+                                        />
+                                        <Tooltip
+                                            content={<CustomTooltip />}
+                                            cursor={{ fill: 'rgba(100, 116, 139, 0.1)' }}
+                                        />
+                                        <ReferenceLine y={0} stroke="#6b7280" strokeWidth={1} />
+                                        <Bar dataKey="pnlAmount" name="Daily P/L (₹)" radius={[4, 4, 0, 0]}>
+                                            {result.historicalPnl.slice().reverse().map((entry, index) => (
+                                                <Cell key={`cell-${index}`} fill={entry.pnlAmount >= 0 ? 'url(#positivePnlGradient)' : 'url(#negativePnlGradient)'} />
+                                            ))}
+                                        </Bar>
+                                    </BarChart>
+                                </ResponsiveContainer>
+                            </div>
+                        </div>
+                    )}
+                    
                     <button
                         onClick={() => onAddToPortfolio(result)}
                         className="w-full mt-2 bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-lg transition duration-300"
                     >
-                        Add Strategy to Portfolio
+                        Add Today's Strategy to Portfolio
                     </button>
                 </div>
             )}

@@ -53,9 +53,15 @@ export const fetchStrategySuggestion = async (instrument: string): Promise<Strat
 
 export const runBacktest = async (instrument: string, strategyName: string): Promise<BacktestResult> => {
   try {
+    const today = new Date();
+    // Use UTC date parts to avoid timezone issues when constructing the date string
+    const todayFormatted = `${today.getUTCFullYear()}-${String(today.getUTCMonth() + 1).padStart(2, '0')}-${String(today.getUTCDate()).padStart(2, '0')}`;
+
     const response = await ai.models.generateContent({
       model: 'gemini-2.5-pro',
-      contents: `Simulate the intraday performance of the '${strategyName}' strategy for ${instrument} options under today's market conditions. Provide a hypothetical outcome including: 1. An array of the individual strategy legs (instrument, action, entryPrice). 2. The estimated capital required in INR for one lot. 3. The maximum potential loss in INR. 4. The final Profit/Loss as a percentage. 5. The final Profit/Loss as an absolute amount in INR. 6. A brief commentary on performance. 7. Generate 8 data points representing the P/L amount in INR fluctuation throughout a 6-hour trading day (e.g., 9:30, 10:30, etc.).`,
+      contents: `Simulate the performance of the '${strategyName}' strategy for ${instrument} options. Provide two sets of hypothetical data:
+1. **Today's Intraday Simulation**: Generate an outcome for today's market conditions (${todayFormatted}) including: an array of individual strategy legs (instrument, action, entryPrice), estimated capital required in INR for one lot, maximum potential loss in INR, final Profit/Loss as a percentage, final Profit/Loss as an absolute amount in INR, a brief commentary on today's performance, and 8 data points representing the P/L amount in INR fluctuation throughout a 6-hour trading day (e.g., 9:30, 10:30, etc.).
+2. **7-Day Historical Simulation**: Provide a hypothetical daily P/L amount in INR for this same strategy if it were executed on each of the last 7 market working days prior to today. The days must be sequential working days (Monday-Friday), going backwards from yesterday. For example, if today is Wednesday, the dates should be for Tuesday, Monday, the previous Friday, Thursday, Wednesday, Tuesday, and Monday. For each day, provide the date in 'YYYY-MM-DD' format. The list must be ordered from the most recent trading day (yesterday) to the oldest.`,
       config: {
         systemInstruction: systemInstruction,
         responseMimeType: "application/json",
@@ -90,9 +96,21 @@ export const runBacktest = async (instrument: string, strategyName: string): Pro
                 },
                 required: ['time', 'pnlAmount']
               }
-            }
+            },
+            historicalPnl: {
+              type: Type.ARRAY,
+              description: "Hypothetical P/L for the past 7 trading days, ordered from most recent to oldest.",
+              items: {
+                type: Type.OBJECT,
+                properties: {
+                  date: { type: Type.STRING, description: 'The date of the trading day in YYYY-MM-DD format.' },
+                  pnlAmount: { type: Type.NUMBER, description: 'The P/L amount in INR for that day.' },
+                },
+                required: ['date', 'pnlAmount']
+              }
+            },
           },
-          required: ['pnl', 'pnlAmount', 'requiredCapital', 'maxLoss', 'strategyLegs', 'commentary', 'dataPoints'],
+          required: ['pnl', 'pnlAmount', 'requiredCapital', 'maxLoss', 'strategyLegs', 'commentary', 'dataPoints', 'historicalPnl'],
         },
       },
     });

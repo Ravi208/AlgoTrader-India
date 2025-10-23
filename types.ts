@@ -28,6 +28,11 @@ export interface StrategyLeg {
   entryPrice: number;
 }
 
+export interface DailyPnl {
+  date: string;
+  pnlAmount: number;
+}
+
 export interface BacktestResult {
   pnl: number; // Percentage
   pnlAmount: number; // Absolute amount in INR
@@ -36,6 +41,7 @@ export interface BacktestResult {
   strategyLegs: StrategyLeg[];
   commentary: string;
   dataPoints: { time: string; pnlAmount: number }[];
+  historicalPnl: DailyPnl[];
 }
 
 export interface Position {

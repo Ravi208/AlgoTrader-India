@@ -1,3 +1,4 @@
+
 import React from 'react';
 import Card from './shared/Card';
 import type { MarketData } from '../types';
@@ -49,6 +50,9 @@ const MarketOverview: React.FC<MarketOverviewProps> = ({ marketData, lastUpdated
           </span>
         </div>
       </div>
+      <div className="text-center text-xs text-gray-500 border-t border-b border-gray-700/50 py-2 mb-4">
+        Note: Live NSE prices are simulated during market hours (9:15 AM - 3:30 PM IST, weekdays).
+      </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {marketData.map((instrument) => (
           <div key={instrument.name} className="bg-gray-900 p-4 rounded-md border border-gray-700">
@@ -70,9 +74,6 @@ const MarketOverview: React.FC<MarketOverviewProps> = ({ marketData, lastUpdated
           </div>
         ))}
       </div>
-      <p className="text-xs text-gray-500 mt-4 text-center">
-        Note: Market data is simulated for paper trading and does not represent live NSE prices.
-      </p>
     </Card>
   );
 };
