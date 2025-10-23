@@ -1,0 +1,5 @@
+{
+  "name": "AlgoTrader India",
+  "description": "A paper trading platform for the Indian market that uses AI to suggest and test algorithmic trading strategies for Nifty and Bank Nifty options.",
+  "requestFramePermissions": []
+}
