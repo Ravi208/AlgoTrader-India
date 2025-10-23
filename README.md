@@ -1,4 +1,4 @@
-<img width="1129" height="353" alt="image" src="https://github.com/user-attachments/assets/de541065-562b-4cd2-b428-fa41acb29b76" /># AlgoTrader India: AI-Powered Options Trading Simulator
+# AlgoTrader India: AI-Powered Options Trading Simulator
 
 AlgoTrader India is a sophisticated paper trading platform for the Indian derivatives market. It uses the Google Gemini API to suggest, simulate, and analyze trading strategies for Nifty and Bank Nifty options, providing a realistic and insightful virtual trading experience.
 
